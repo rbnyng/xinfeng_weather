@@ -2,7 +2,7 @@ name: Daily Weather Mining
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 4 * * *'  # Runs at 4 AM UTC, which is 12 PM GMT+8
   workflow_dispatch:
 
 jobs:
@@ -28,9 +28,9 @@ jobs:
       
     - name: Set up Git
       run: |
-        git config --global user.name 'Robin Young'
-        git config --global user.email 'robin@rayoung.org'
-
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        
     - name: Commit and Push CSV
       run: |
         git add --all        
