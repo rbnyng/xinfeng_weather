@@ -1,4 +1,4 @@
-name: Daily Python Script
+name: Daily Weather Mining
 
 on:
   schedule:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Set up the Python version you need
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
@@ -25,3 +25,14 @@ jobs:
 
     - name: Run the script
       run: python get_weather.py
+      
+    - name: Set up Git
+      run: |
+        git config --global user.name 'Robin Young'
+        git config --global user.email 'robin@rayoung.org'
+
+    - name: Commit and Push CSV
+      run: |
+        git add weather_data.csv
+        git commit -m "Update weather data CSV"
+        git push
