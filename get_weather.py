@@ -22,8 +22,6 @@ def fetch_data():
 
     # Extract tables into a list of DataFrames
     tables = pd.read_html(r.html.html)
-
-    # Assuming the first table is the required one
     return tables[0]
 
 def append_to_csv(new_data, filename):
@@ -36,8 +34,9 @@ def append_to_csv(new_data, filename):
 
     if os.path.isfile(filename):
         existing_data = pd.read_csv(filename)
-        updated_data = pd.concat([existing_data, new_data], ignore_index=True).drop_duplicates()
-        #updated_data = pd.concat([existing_data, new_data], ignore_index=True)
+        updated_data = pd.concat([existing_data, new_data], ignore_index=True)
+        updated_data = updated_data.astype({'觀測時間': 'str'})
+        updated_data = updated_data.drop_duplicates()
     else:
         updated_data = new_data
 
