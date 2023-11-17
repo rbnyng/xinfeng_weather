@@ -4,9 +4,9 @@ This repository contains a Python script for scraping weather data from the CWA 
 
 ## How It Works
 
-- The `script.py` fetches weather data from a public weather data website.
+- The `get_weather.py` fetches weather data from a public weather data website.
 - The data is extracted from an HTML table that is dynamically loaded using JavaScript.
-- This data is then appended to a CSV file (`weather_data.csv`).
+- This data is then appended to a CSV file (`weather_data.csv`) if it exists, and created if it does not.
 - The GitHub Actions workflow (`daily-script-run.yml`) is scheduled to run this script daily.
 - The updated CSV file is then committed and pushed back to the repository.
 
