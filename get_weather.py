@@ -36,7 +36,7 @@ def append_to_csv(new_data, filename):
 
     if os.path.isfile(filename):
         existing_data = pd.read_csv(filename)
-        updated_data = pd.concat([existing_data, new_data], ignore_index=True).drop_duplicates(subset=['觀測時間'])
+        updated_data = pd.concat([existing_data, new_data], ignore_index=True).drop_duplicates()
         #updated_data = pd.concat([existing_data, new_data], ignore_index=True)
     else:
         updated_data = new_data
