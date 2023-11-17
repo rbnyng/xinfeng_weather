@@ -33,6 +33,6 @@ jobs:
 
     - name: Commit and Push CSV
       run: |
-        git add weather_data.csv
+        git add --all        
         git commit -m "Update weather data CSV"
         git push
