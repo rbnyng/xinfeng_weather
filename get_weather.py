@@ -5,39 +5,29 @@ import csv
 import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
-
+from io import StringIO
 
 def fetch_data():
-    # URL of the website containing weather data
     url = 'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=C0D59'
-
-    # Start an HTML Session
     session = HTMLSession()
-
-    # Fetch the webpage
     r = session.get(url)
-
+    
     # Render the JavaScript with an appropriate sleep time
     r.html.render(sleep=5)
-
+    
     # Extract tables into a list of DataFrames
-    tables = pd.read_html(r.html.html)
+    tables = pd.read_html(StringIO(r.html.html))
     data = tables[0]
-
-    # Extracting the HTML content of the third column
-    html_content = r.html.find('table', first=True).html
-    column_session = HTMLSession()
-    r_column = column_session.get(html=html_content)
-    third_column_cells = r_column.html.find('table tr td:nth-of-type(3)')
-
-    # Extract 'alt' text from images in each cell
-    captions = []
-    for cell in third_column_cells:
-        img = cell.find('img', first=True)
-        caption = img.attrs['alt'] if img and 'alt' in img.attrs else ''
-        captions.append(caption)
-
-    data.iloc[:, 2] = captions
+    
+    # Process the weather column since it's images and we want text
+    weather_cells = r.html.find('td[headers="weather"] img') 
+    
+    # Extract 'alt' text (captions) from images
+    weather_captions = [cell.attrs.get('alt', '') for cell in weather_cells]
+    
+    # Replace the weather column in the DataFrame
+    if len(weather_captions) == len(data):
+        data.iloc[:, 2] = weather_captions
 
     return data
 
