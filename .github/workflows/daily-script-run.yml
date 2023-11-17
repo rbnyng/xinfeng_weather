@@ -2,8 +2,8 @@ name: Daily Python Script
 
 on:
   schedule:
-    # Runs at 12:00 UTC every day
     - cron: '0 12 * * *'
+  workflow_dispatch:
 
 jobs:
   run-script:
@@ -24,4 +24,4 @@ jobs:
         pip install requests requests_html pandas  # Add any other dependencies
 
     - name: Run the script
-      run: python get_weather.py
+      run: python path/to/your/script.py
