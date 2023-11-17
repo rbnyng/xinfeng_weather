@@ -5,6 +5,7 @@ import csv
 import os
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 notebookpath = Path.cwd()
 folderpath = notebookpath.parent
@@ -30,6 +31,13 @@ def fetch_data():
     return tables[0]
 
 def append_to_csv(new_data, filename):
+    # Get the current year
+    current_time_gmt8 = datetime.datetime.now(ZoneInfo('Asia/Taipei'))
+    
+    # Format the time column in new_data to include the current year
+    new_data['觀測時間'] = new_data['觀測時間'].apply(lambda x: f"{current_time_gmt8.year}/{x}")
+    new_data['觀測時間'] = pd.to_datetime(new_data['觀測時間'], format='%Y/%m/%d %H:%M')
+
     if os.path.isfile(filename):
         existing_data = pd.read_csv(filename)
         updated_data = pd.concat([existing_data, new_data], ignore_index=True).drop_duplicates(subset=['觀測時間'])
