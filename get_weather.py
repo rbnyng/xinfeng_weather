@@ -29,24 +29,21 @@ def fetch_data():
     # Assuming the first table is the required one
     return tables[0]
 
-def save_to_csv(data):
-    # Define the CSV file name
-    filename = "weather_data.csv"
+def append_to_csv(new_data, filename):
+    if os.path.isfile(filename):
+        existing_data = pd.read_csv(filename)
+        updated_data = pd.concat([existing_data, new_data], ignore_index=True)
+    else:
+        updated_data = new_data
 
-    # Check if file exists
-    file_exists = os.path.isfile(filename)
-
-    # Writing to csv file
-    with open(filename, 'a' if file_exists else 'w', newline='', encoding='utf-8') as csvfile:
-        # Use DataFrame's to_csv method to handle the writing
-        data.to_csv(csvfile, index=False, header=not file_exists)
+    updated_data.to_csv(filename, index=False)
 
 def main():
-    # Fetch data from the website
-    data = fetch_data()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_filename = os.path.join(script_dir, 'weather_data.csv')
 
-    # Save or append the data to a CSV file
-    save_to_csv(data)
-
+    new_data = fetch_data()
+    append_to_csv(new_data, csv_filename)
+    
 if __name__ == "__main__":
     main()
