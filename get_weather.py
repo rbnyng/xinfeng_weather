@@ -4,12 +4,8 @@ import pandas as pd
 import csv
 import os
 from datetime import datetime
-from pathlib import Path
 from zoneinfo import ZoneInfo
 
-notebookpath = Path.cwd()
-folderpath = notebookpath.parent
-os.chdir(folderpath)
 
 def fetch_data():
     # URL of the website containing weather data
