@@ -32,7 +32,7 @@ def fetch_data():
 
 def append_to_csv(new_data, filename):
     # Get the current year
-    current_time_gmt8 = datetime.datetime.now(ZoneInfo('Asia/Taipei'))
+    current_time_gmt8 = datetime.now(ZoneInfo('Asia/Taipei'))
     
     # Format the time column in new_data to include the current year
     new_data['觀測時間'] = new_data['觀測時間'].apply(lambda x: f"{current_time_gmt8.year}/{x}")
