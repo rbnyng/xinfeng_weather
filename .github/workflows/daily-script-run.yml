@@ -24,4 +24,4 @@ jobs:
         pip install requests requests_html pandas  # Add any other dependencies
 
     - name: Run the script
-      run: python path/to/your/script.py
+      run: python get_weather.py
