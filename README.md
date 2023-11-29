@@ -16,3 +16,7 @@ This repository contains a Python script for scraping weather data from the CWA 
 
 - Python 3.11
 - Libraries: `pandas`, `requests_html`
+
+## Humidity Plot
+
+![plot](./plot.png)
