@@ -51,13 +51,11 @@ def append_to_csv(new_data, filename):
     updated_data.to_csv(filename, index=False)
 
 def plot_data(data, column_name, plot_filename):
-    plt.rcParams['font.sans-serif'] = ['SimHei']
-    
     sorted_data = data.sort_values(by='觀測時間', ascending=False)
 
     plt.figure(figsize=(10, 6))
     plt.plot(sorted_data['觀測時間'], sorted_data[column_name])
-    plt.title(f"{column_name} Over Time")
+    plt.title(f"Humidity Over Time")
     plt.xlabel('Time')
     plt.ylabel(column_name)
     plt.xticks(rotation=45)
