@@ -51,15 +51,19 @@ def append_to_csv(new_data, filename):
     updated_data.to_csv(filename, index=False)
 
 def plot_data(data, column_name, plot_filename):
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+    
+    sorted_data = data.sort_values(by='觀測時間', ascending=False)
+
     plt.figure(figsize=(10, 6))
-    plt.plot(data['觀測時間'], data[column_name])
+    plt.plot(sorted_data['觀測時間'], sorted_data[column_name])
     plt.title(f"{column_name} Over Time")
     plt.xlabel('Time')
     plt.ylabel(column_name)
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.savefig(plot_filename)
-
+    
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     csv_filename = os.path.join(script_dir, 'weather_data.csv')
