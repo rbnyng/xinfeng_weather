@@ -28,8 +28,8 @@ jobs:
       
     - name: Set up Git
       run: |
-        git config --local user.email "actions@github.com"
-        git config --local user.name "GitHub Actions"
+        git config --local user.email "59581322+rbnyng@users.noreply.github.com "
+        git config --local user.name "Robin Young"
         
     - name: Commit and Push CSV
       run: |
