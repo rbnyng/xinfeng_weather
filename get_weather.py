@@ -25,7 +25,8 @@ def fetch_data(url):
     
     # Extract 'alt' text (captions) from images
     weather_captions = [cell.attrs.get('alt', '') for cell in weather_cells]
-    
+    data.iloc[:, 2] = data.iloc[:, 2].astype(str)
+
     # Replace the weather column in the DataFrame
     if len(weather_captions) == len(data):
         data.iloc[:, 2] = weather_captions
