@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 from zoneinfo import ZoneInfo
 from io import StringIO
 
-def fetch_data():
-    url = 'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=C0D59'
+def fetch_data(url):
     session = HTMLSession()
     r = session.get(url)
     
@@ -50,13 +49,22 @@ def append_to_csv(new_data, filename):
 
     updated_data.to_csv(filename, index=False)
 
-
-def main():
+def main(urls):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_filename = os.path.join(script_dir, 'weather_data.csv')
-
-    new_data = fetch_data()
-    append_to_csv(new_data, csv_filename)
+    
+    for url in urls:
+        station_id = url.split('ID=')[-1]
+        csv_filename = os.path.join(script_dir, f'weather_data_{station_id}.csv')
+        
+        new_data = fetch_data(url)
+        append_to_csv(new_data, csv_filename)
     
 if __name__ == "__main__":
-    main()
+    urls = [
+        'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=C0D59',
+        'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=46757',
+        'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=CAD03',
+        'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=CAD04',
+        'https://www.cwa.gov.tw/V8/C/W/OBS_Station.html?ID=CAD10'
+    ]
+    main(urls)
