@@ -7,6 +7,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from zoneinfo import ZoneInfo
 from io import StringIO
+import re
 
 def fetch_data(url):
     session = HTMLSession()
@@ -28,8 +29,12 @@ def fetch_data(url):
     # Replace the weather column in the DataFrame
     if len(weather_captions) == len(data):
         data.iloc[:, 2] = weather_captions
-
-    return data
+    
+    # Extract the station name
+    station_name_element = r.html.find('li#BarStationName', first=True)
+    station_name = station_name_element.text if station_name_element else "Unknown_Station"
+    
+    return data, station_name
 
 def append_to_csv(new_data, filename):
     # Get the current year
@@ -53,10 +58,9 @@ def main(urls):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
     for url in urls:
-        station_id = url.split('ID=')[-1]
-        csv_filename = os.path.join(script_dir, f'weather_data_{station_id}.csv')
+        new_data, station_name = fetch_data(url)
+        csv_filename = os.path.join(script_dir, f'weather_data_{station_name}.csv')
         
-        new_data = fetch_data(url)
         append_to_csv(new_data, csv_filename)
     
 if __name__ == "__main__":
